@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(MyApp());
 
@@ -41,23 +42,36 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'This app is for demonstrating the map and the selected location.'
-            ),
-            FlatButton(
-              child: Text('Ask for permission'),
-              onPressed: () {},
-            ),
-            FlatButton(
-              child: Text('Show me maps'),
-              onPressed: () {},
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'This app is for demonstrating the map and the selected location.',
+                textAlign: TextAlign.center,
+              ),
+              Container(
+                height: 20,
+              ),
+              RaisedButton(
+                child: Text('Ask for permission'),
+                onPressed: () {
+                  doLocationPermissionAsk();
+                },
+              ),
+              RaisedButton(
+                child: Text('Show me maps'),
+                onPressed: () {},
+              )
+            ],
+          ),
         ),
       ),
     );
+  }
+
+  Future doLocationPermissionAsk() async {
+    Map<PermissionGroup, PermissionStatus> permissions = await PermissionHandler().requestPermissions([PermissionGroup.location]);
   }
 }
