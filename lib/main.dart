@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+
+import 'mapScreen.dart';
 
 void main() => runApp(MyApp());
 
@@ -28,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  String LatLong = "";
 
   void _incrementCounter() {
     setState(() {
@@ -48,6 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
+                'The selected Location is: $LatLong'
+              ),
+              Text(
                 'This app is for demonstrating the map and the selected location.',
                 textAlign: TextAlign.center,
               ),
@@ -62,7 +69,13 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               RaisedButton(
                 child: Text('Show me maps'),
-                onPressed: () {},
+                onPressed: () async {
+                  CameraPosition cameraPosition = await Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => MapScreen()));
+                  setState(() {
+                    LatLong = cameraPosition.target.latitude.toString() + " : " + cameraPosition.target.longitude.toString();
+                  });
+                },
               )
             ],
           ),
