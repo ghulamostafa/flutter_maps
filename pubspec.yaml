@@ -27,6 +27,7 @@ dependencies:
   permission_handler: ^3.1.0
   google_maps_flutter: ^0.5.17
   location: ^2.3.5
+  charts_flutter: ^0.6.0
 
 dev_dependencies:
   flutter_test:

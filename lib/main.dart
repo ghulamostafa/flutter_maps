@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_maps_testing/chartScreen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 import 'mapScreen.dart';
 
@@ -76,12 +78,39 @@ class _MyHomePageState extends State<MyHomePage> {
                     LatLong = cameraPosition.target.latitude.toString() + " : " + cameraPosition.target.longitude.toString();
                   });
                 },
+              ),
+              RaisedButton(
+                child: Text('Show me charts'),
+                onPressed: (){
+                  List<charts.Series<dynamic, String>> theList = List();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => SimpleBarChart(_createSampleData())));
+                },
               )
             ],
           ),
         ),
       ),
     );
+  }
+
+  static List<charts.Series<OrdinalSales, String>> _createSampleData() {
+    final data = [
+      new OrdinalSales('2014', 5),
+      new OrdinalSales('2015', 25),
+      new OrdinalSales('2016', 100),
+      new OrdinalSales('2017', 75),
+    ];
+
+    return [
+      new charts.Series<OrdinalSales, String>(
+        id: 'Sales',
+        colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+        domainFn: (OrdinalSales sales, _) => sales.year,
+        measureFn: (OrdinalSales sales, _) => sales.sales,
+        data: data,
+        )
+    ];
   }
 
   Future doLocationPermissionAsk() async {
